@@ -25,4 +25,5 @@ class PhotoBase(BaseModel):
 class PhotoResponse(PhotoBase):
     id: int
     event_id: int
+    processed: bool
     model_config = ConfigDict(from_attributes=True)
