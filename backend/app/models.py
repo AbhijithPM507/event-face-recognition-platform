@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Float, ARRAY, DateTime
+from sqlalchemy import Boolean, Column, Integer, String, ForeignKey, Float, ARRAY, DateTime
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from .database import Base
@@ -17,7 +17,7 @@ class Photo(Base):
     id = Column(Integer, primary_key=True, index=True)
     event_id = Column(Integer, ForeignKey("events.id"))
     storage_url = Column(String, nullable=False) # Where the image is stored (S3/Local)
-    
+    processed = Column(Boolean, default=False)    
     event = relationship("Event", back_populates="photos")
     faces = relationship("FaceEmbedding", back_populates="photo")
 
@@ -26,6 +26,5 @@ class FaceEmbedding(Base):
     id = Column(Integer, primary_key=True, index=True)
     photo_id = Column(Integer, ForeignKey("photos.id"))
     # Dev B will populate this later with the facial feature numbers
-    embedding = Column(ARRAY(Float)) 
-    
+    embedding = Column(ARRAY(Float))
     photo = relationship("Photo", back_populates="faces")
